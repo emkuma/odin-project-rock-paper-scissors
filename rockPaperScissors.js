@@ -22,10 +22,7 @@ function getComputerChoice() {
   return humanChoice;
  }
 
- function playRound(humanChoice, computerChoice, humanScore, computerScore, tally) {
-  getComputerChoice();
-  getHumanChoice();
-
+ function playRound(humanChoice, computerChoice, humanScore, computerScore) {
   if (humanChoice === computerChoice) {
     console.log(`${humanChoice} ties with ${computerChoice}!`)
     return;
@@ -48,9 +45,12 @@ function getComputerChoice() {
   return tally;
  }
 
- function playGame() {
+ function playGame(humanChoice, computerChoice) {
   for (let i = 0; i < 5; i++) {
-    playRound(humanChoice, computerChoice, humanScore, computerScore, tally);
+    getComputerChoice();
+    getHumanChoice();
+
+    playRound(humanChoice, computerChoice, humanScore, computerScore);
 
     if (tally[0] == 'You') {
       console.log(`${tally[0]} win!  ${humanChoice} beats ${computerChoice}`);
@@ -62,4 +62,7 @@ function getComputerChoice() {
   }
  }
 
- playGame();
+humanChoice = '';
+computerChoice = '';
+
+playGame(humanChoice, computerChoice);

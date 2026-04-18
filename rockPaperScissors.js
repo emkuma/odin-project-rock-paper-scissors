@@ -4,18 +4,17 @@ let tally = [];
 
 function getComputerChoice() {
   randomNumber = Math.floor(Math.random() * 3) + 1;
+
   if (randomNumber === 1) {
     computerChoice = "rock";
-    return computerChoice;
   }
   if (randomNumber === 2) {
     computerChoice = "paper";
-    return computerChoice;
   }
   if (randomNumber === 3) {
     computerChoice = "scissors";
-    return computerChoice;
   }
+   return computerChoice;
  }
 
  function getHumanChoice() {
@@ -23,7 +22,10 @@ function getComputerChoice() {
   return humanChoice;
  }
 
- function playRound(humanChoice, computerChoice, humanScore, computerScore) {
+ function playRound(humanChoice, computerChoice, humanScore, computerScore, tally) {
+  getComputerChoice();
+  getHumanChoice();
+
   if (humanChoice === computerChoice) {
     console.log(`${humanChoice} ties with ${computerChoice}!`)
     return;
@@ -46,9 +48,9 @@ function getComputerChoice() {
   return tally;
  }
 
- function playGame(humanChoice, computerChoice, humanScore, computerScore) {
+ function playGame() {
   for (let i = 0; i < 5; i++) {
-    playRound(humanChoice, computerChoice, humanScore, computerScore);
+    playRound(humanChoice, computerChoice, humanScore, computerScore, tally);
 
     if (tally[0] == 'You') {
       console.log(`${tally[0]} win!  ${humanChoice} beats ${computerChoice}`);
@@ -60,8 +62,4 @@ function getComputerChoice() {
   }
  }
 
- getComputerChoice();
-
- getHumanChoice();
-
- playGame(humanChoice, computerChoice, humanScore, computerScore, tally);
+ playGame();

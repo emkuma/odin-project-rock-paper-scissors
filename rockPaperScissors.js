@@ -1,68 +1,93 @@
 let humanScore = 0;
 let computerScore = 0;
-let tally = [];
 
 function getComputerChoice() {
-  randomNumber = Math.floor(Math.random() * 3) + 1;
+  let computerChoice = Math.floor(Math.random() * 3) + 1;
 
-  if (randomNumber === 1) {
+  if (computerChoice === 1) {
     computerChoice = "rock";
   }
-  if (randomNumber === 2) {
+  if (computerChoice === 2) {
     computerChoice = "paper";
   }
-  if (randomNumber === 3) {
+  if (computerChoice === 3) {
     computerChoice = "scissors";
   }
+   console.log("Computer: ", computerChoice); 
    return computerChoice;
  }
 
  function getHumanChoice() {
-  humanChoice = prompt("rock, paper, or scissors? ").toLowerCase();
-  return humanChoice;
- }
+    let humanChoice = prompt("rock, paper, or scissors? ").toLowerCase();
+    if (humanChoice === null) {
+      console.log("User clicked Cancel")
+      return;
+    }
+    console.log("You: ", humanChoice);
+    return humanChoice; 
+  }
+ 
+  
+  let humanChoice = getHumanChoice();
+  let computerChoice = getComputerChoice();
 
- function playRound(humanChoice, computerChoice, humanScore, computerScore) {
+  console.log(`Human: ${humanChoice} Computer: ${computerChoice}`);
+
+ function playRound(humanChoice, computerChoice) {
+  let winner;
+  
   if (humanChoice === computerChoice) {
     console.log(`${humanChoice} ties with ${computerChoice}!`)
-    return;
+    return ['Tie', humanScore, computerScore];
   }
 
-  if (humanChoice === "rock" && computerChoice === "scissors" || humanChoice === "paper" && computerChoice === "rock") {
-    humanScore ++;
-    winner = 'You';
-  }
-  if (humanChoice === "paper" && computerChoice === "scissors" || humanChoice === "scissors" && computerChoice === "rock") {
-    computerScore ++;
-    winner = 'Computer';
-  }
-  if (humanChoice === "scissors" && computerChoice === "paper" || humanChoice === "rock" && computerChoice === "scissors") {
-    humanScore ++;
-    winner = 'You';
-  }
-  tally = [winner, humanScore, computerScore];
-
-  return tally;
- }
-
- function playGame(humanChoice, computerChoice) {
-  for (let i = 0; i < 5; i++) {
-    getComputerChoice();
-    getHumanChoice();
-
-    playRound(humanChoice, computerChoice, humanScore, computerScore);
-
-    if (tally[0] == 'You') {
-      console.log(`${tally[0]} win!  ${humanChoice} beats ${computerChoice}`);
-    }  
-    else if (tally[0] == 'Computer') {
-      console.log(`${tally[0]} wins!  ${computerChoice} beats ${humanChoice}!`);
+  if ((humanChoice === "rock" && computerChoice === "scissors") || 
+     (humanChoice === "paper" && computerChoice === "rock") ||
+     (humanChoice === "scissors" && computerChoice === "paper"))
+    {
+      humanScore ++;
+      winner = 'You';
     }
-    console.log(`You: ${tally[1]}  Computer: ${tally[2]}`); 
-  }
+    else {
+      computerScore++;
+      winner = 'Computer';
+    }
+   
+  result = [winner, humanScore, computerScore];
+  return result;
  }
 
-humanChoice = '';
-computerChoice = '';
+ function playGame(humanChoice, computerChoice, humanScore, computerScore, winner) {
+  for (let i = 0; i < 5; i++) {
+    let humanChoice = getHumanChoice();
+    let computerChoice = getComputerChoice();
+    
+    let result = playRound(humanChoice, computerChoice, humanScore, computerScore);
 
-playGame(humanChoice, computerChoice);
+    let winner = result[0];
+    humanScore = result[1];
+    computerScore = result[2];
+
+    if (winner === 'You') {
+      console.log(`You win!  ${humanChoice} beats ${computerChoice}`);
+    }  
+    else if (winner === 'Computer') {
+      console.log(`Computer wins!  ${computerChoice} beats ${humanChoice}!`);
+    }
+    console.log(`It's a tie!`);
+  }
+  console.log(`Score -> You: ${humanScore} | Computer: ${computerScore}`);
+  console.log(`---------------------------------------`);
+ }
+
+ if (humanScore > computerScore) {
+  console.log("You win the game!");
+
+ }else if (computerScore > humanScore) {
+  console.log("Computer wins the game!");
+
+ }else {
+  console.log("Tie game!");
+ }
+
+playGame();
